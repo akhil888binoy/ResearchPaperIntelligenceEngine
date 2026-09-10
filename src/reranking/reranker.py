@@ -28,9 +28,7 @@ def rrf(vector_docs, bm25_docs, k=60):
 
 def rerank(ranked_docs ,query):
 
-
     reranking = vo.rerank(query, ranked_docs, model="rerank-2.5", top_k=3)
-
     return reranking
     
 

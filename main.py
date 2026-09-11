@@ -2,9 +2,9 @@ import os
 from fastapi import FastAPI
 from dotenv import load_dotenv
 from src.ingestion.parser import parser
-from src.services.rag import rag
+from src.routers.research import rag_router
 load_dotenv()
 
 chunks = parser()
 app = FastAPI(debug=os.getenv("DEBUG", "False").lower() == "true")
-rag("what is attention ?")  
+app.include_router(rag_router)

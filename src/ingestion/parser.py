@@ -2,24 +2,21 @@ from pypdf import PdfReader
 import re
 import numpy as np
 
-from sklearn.metrics.pairwise import cosine_similarity
-import ollama
 from langchain_community import document_loaders
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_core.vectorstores import InMemoryVectorStore
-from langchain_openai import OpenAIEmbeddings
 import uuid
 import chromadb
+from src.generation.llm import client
 
 chroma_client = chromadb.Client()
 
 collection = chroma_client.create_collection(name="research_papers")
 
-def convert_to_vector(texts):
+async def convert_to_vector(texts):
     
     try:
 
-        response = ollama.embed(
+        response = await client.embed(
                 model  =  'qwen',
                 input =  texts,
         )

@@ -1,6 +1,9 @@
-from langchain_ollama import ChatOllama
+import ollama
 
-def search(reranked , query):
+
+client = ollama.AsyncClient()
+
+async def search(reranked , query):
 
     prompt = f"""
         You are a helpful AI assistant answering questions using retrieved documents.
@@ -25,11 +28,11 @@ def search(reranked , query):
         Answer:
     """
 
-    llm = ChatOllama(
+    response = await client.chat(
             model="qwen",
-            temperature=0,
+            messages=[
+                {"role": "user", "content": prompt}
+            ]
         )
 
-    ai_msg = llm.invoke(prompt)
-
-    return ai_msg.content
+    return response["message"]["content"]
